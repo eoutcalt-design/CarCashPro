@@ -58,3 +58,6 @@ export const PRODUCT_LABELS: Record<string, string> = {
 // 1. Go to Stripe Dashboard -> Products -> Create Payment Link
 // 2. Paste that link inside the quotes below
 export const STRIPE_PAYMENT_LINK = "https://buy.stripe.com/test_payment_link_PLACEHOLDER";
+
+// Free trial limit - users can create up to 10 deals before requiring Pro
+export const FREE_DEAL_LIMIT = 10;

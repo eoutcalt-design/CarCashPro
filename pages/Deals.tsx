@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { useApp, calculateCommission } from '../context/AppContext';
 import { Deal, DealType, ProductStatus } from '../types';
 import { Header, Card, Input, Button, Toggle, Select } from '../components/Components';
+import { FreeTrialWarning } from '../components/FreeTrialWarning';
+import { FREE_DEAL_LIMIT } from '../constants';
 import { Car, Filter, Plus, X, AlertCircle } from 'lucide-react';
 import { format } from 'date-fns';
 
@@ -55,7 +57,7 @@ const getInitialFormState = (): DealFormState => ({
 });
 
 const Deals = () => {
-  const { deals, addDeal, updateDeal, deleteDeal, payPlan, newDealTrigger } = useApp();
+  const { deals, addDeal, updateDeal, deleteDeal, payPlan, newDealTrigger, isPro, stats, togglePro } = useApp();
   const [showModal, setShowModal] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState<DealFormState>(getInitialFormState());
@@ -115,6 +117,14 @@ const Deals = () => {
           if (editingId && form.id) {
               await updateDeal(dealData as Deal);
           } else {
+              // Check free trial limit for new deals
+              if (!isPro && deals.length >= FREE_DEAL_LIMIT) {
+                  setError(`Free trial limited to ${FREE_DEAL_LIMIT} deals. Upgrade to Pro to continue.`);
+                  setIsSaving(false);
+                  togglePro(); // Show upgrade modal
+                  return;
+              }
+              
               const { id, ...newDealData } = dealData;
               const sanitized = JSON.parse(JSON.stringify(newDealData));
               await addDeal(sanitized);
@@ -176,6 +186,15 @@ const Deals = () => {
             </div>
         }
       />
+
+      {/* Free Trial Warning */}
+      {!isPro && (
+        <FreeTrialWarning
+          dealCount={deals.length}
+          projectedIncome={stats.projectedIncome}
+          onUpgrade={togglePro}
+        />
+      )}
 
       <div className="space-y-4 pb-36">
           {filteredDeals.map((deal) => {

@@ -46,7 +46,23 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [goals, setGoals] = useState<Goals>(DEFAULT_GOALS);
   const [achievements, setAchievements] = useState<Achievement[]>(INITIAL_ACHIEVEMENTS);
   const [isPro, setIsPro] = useState<boolean>(false);
+  const [prevIsPro, setPrevIsPro] = useState<boolean>(false);
   const [newDealTrigger, setNewDealTrigger] = useState(0);
+  
+  // Track Pro upgrade conversion
+  useEffect(() => {
+    if (!prevIsPro && isPro) {
+      // User just upgraded to Pro
+      if (typeof window !== 'undefined' && (window as any).fbq) {
+        (window as any).fbq('track', 'Purchase', {
+          value: 9.99,
+          currency: 'USD',
+          content_name: 'CarCashPro Pro Subscription'
+        });
+      }
+    }
+    setPrevIsPro(isPro);
+  }, [isPro]);
   
   const [stats, setStats] = useState<UserStats>({
     unitsMTD: 0, totalGross: 0, commissionMTD: 0, bonuses: 0, chargebacks: 0,
@@ -198,6 +214,11 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
             notifications: { emailDailyPace: true, emailWeeklySummary: true, emailAchievements: true },
             createdAt: new Date().toISOString()
         });
+        
+        // Track signup conversion in Facebook Pixel
+        if (typeof window !== 'undefined' && (window as any).fbq) {
+          (window as any).fbq('track', 'CompleteRegistration');
+        }
     }
   };
   const logout = async () => await auth.signOut();
