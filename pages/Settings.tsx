@@ -6,6 +6,7 @@ import { AdminConsole } from '../components/AdminConsole';
 import { AdminConsoleSimple } from '../components/AdminConsoleSimple';
 import { Bell, Mail, Key, User, ShieldAlert } from 'lucide-react';
 
+// Updated: Admin Console with user management
 const Settings = () => {
   const { user, updateNotifications, updateUserEmail, updateUserPassword, deals } = useApp();
   const [newEmail, setNewEmail] = useState('');
