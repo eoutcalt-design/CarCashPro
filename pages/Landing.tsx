@@ -53,7 +53,7 @@ const Landing = () => {
             <div className="text-center lg:text-left self-start pt-2">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-600/20 border border-blue-500/40 text-blue-200 text-xs font-bold uppercase tracking-wide mb-6 animate-fade-in backdrop-blur-md shadow-lg">
                     <Shield size={14} />
-                    Built by Dealership Veterans
+                    Built by Real Dealership Veterans
                 </div>
                 
                 <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-6 leading-tight drop-shadow-2xl">
@@ -65,13 +65,21 @@ const Landing = () => {
                     CarCashPro is a real-time commission, pacing, and income-projection system built specifically for automotive sales professionals who want control, clarity, and zero surprises on payday.
                 </p>
                 
-                <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
-                    <Button onClick={() => navigate('/signup')} className="sm:w-auto px-8 py-4 text-lg shadow-xl shadow-blue-500/30 hover:scale-105 border border-blue-400/30">
-                        Start Tracking Free <ArrowRight className="ml-2" size={20} />
-                    </Button>
-                    <button onClick={() => navigate('/login')} className="px-8 py-4 rounded-2xl font-bold text-slate-200 hover:bg-white/10 hover:text-white transition-all w-full sm:w-auto border border-white/10 hover:border-white/30 backdrop-blur-md shadow-lg bg-slate-900/40">
-                        Already Have an Account? Log In
-                    </button>
+                <div className="flex flex-col items-center lg:items-start gap-4">
+                    <div className="flex flex-col sm:flex-row items-center gap-4">
+                        <Button onClick={() => navigate('/signup')} className="sm:w-auto px-8 py-4 text-lg shadow-xl shadow-blue-500/30 hover:scale-105 border border-blue-400/30">
+                            Start Tracking Free <ArrowRight className="ml-2" size={20} />
+                        </Button>
+                        <div className="flex flex-col items-center sm:items-start">
+                            <p className="text-xs text-slate-400 mb-1">Already have an account?</p>
+                            <button onClick={() => navigate('/login')} className="px-8 py-3 rounded-2xl font-bold text-slate-200 hover:bg-white/10 hover:text-white transition-all border border-white/10 hover:border-white/30 backdrop-blur-md shadow-lg bg-slate-900/40">
+                                Log In
+                            </button>
+                        </div>
+                    </div>
+                    <p className="text-xs text-slate-400 mt-1">
+                        No credit card required · Cancel anytime
+                    </p>
                 </div>
 
                 <div className="mt-10 opacity-90">
@@ -96,13 +104,17 @@ const Landing = () => {
                     <div className="w-full h-full bg-slate-950 relative overflow-hidden">
                         <iframe 
                             className="absolute top-0 left-0 w-full h-full"
-                            src="https://www.youtube.com/embed/mjzE0fupU4E?mute=1&controls=1&modestbranding=1&rel=0&showinfo=0"
+                            src="https://www.youtube.com/embed/mjzE0fupU4E?autoplay=1&mute=1&loop=1&playlist=mjzE0fupU4E&controls=1&modestbranding=1&rel=0&showinfo=0"
                             title="CarCashPro Demo Video"
                             frameBorder="0"
-                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowFullScreen
                             loading="lazy"
                         ></iframe>
+                        {/* Video Overlay Label */}
+                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-black/60 backdrop-blur-sm rounded-full text-white text-xs font-medium border border-white/20 pointer-events-none z-40">
+                            Watch 90-Second Demo
+                        </div>
                     </div>
                 </div>
                 
