@@ -96,7 +96,7 @@ const Landing = () => {
                     <div className="w-full h-full bg-slate-950 relative overflow-hidden">
                         <iframe 
                             className="absolute top-0 left-0 w-full h-full"
-                            src="https://www.youtube.com/embed/Rj_fizbLSFE?mute=1&controls=1&modestbranding=1&rel=0&showinfo=0"
+                            src="https://www.youtube.com/embed/mjzE0fupU4E?mute=1&controls=1&modestbranding=1&rel=0&showinfo=0"
                             title="CarCashPro Demo Video"
                             frameBorder="0"
                             allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -121,7 +121,7 @@ const Landing = () => {
                     </Button>
                     <br />
                     <a 
-                        href="https://youtu.be/Rj_fizbLSFE" 
+                        href="https://youtube.com/shorts/mjzE0fupU4E" 
                         target="_blank" 
                         rel="noreferrer"
                         className="inline-flex items-center gap-2 text-xs text-slate-400 hover:text-blue-400 transition-colors"
