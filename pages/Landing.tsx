@@ -83,19 +83,37 @@ const Landing = () => {
                 </div>
             </div>
 
-            {/* Right Column: Static Interactive Phone Mockup */}
+            {/* Right Column: YouTube Video Embed */}
             <div className="relative mx-auto lg:mr-0 max-w-[300px] md:max-w-[350px] w-full self-start">
-                {/* Glow Effect behind phone */}
+                {/* Glow Effect behind video */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[80%] bg-blue-500/20 rounded-full blur-[80px] animate-pulse"></div>
-                <StaticPhoneMockup />
+                
+                {/* Phone Frame with Video */}
+                <div className="relative bg-black border-[12px] border-slate-900 rounded-[3rem] shadow-2xl overflow-hidden aspect-[9/19] z-20 ring-1 ring-white/10">
+                    {/* Notch */}
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-6 bg-slate-900 rounded-b-xl z-30 pointer-events-none"></div>
+                    
+                    {/* YouTube Video Embed */}
+                    <div className="w-full h-full bg-slate-950 relative overflow-hidden">
+                        <iframe 
+                            className="absolute top-0 left-0 w-full h-full"
+                            src="https://www.youtube.com/embed/3UlClTLnrOs?autoplay=1&mute=1&loop=1&playlist=3UlClTLnrOs&controls=0&modestbranding=1&rel=0&showinfo=0"
+                            title="CarCashPro Demo"
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                        ></iframe>
+                    </div>
+                </div>
+                
                 <div className="mt-4 text-center">
                     <a 
-                        href="https://youtube.com/shorts/Nwmkf_UGieI" 
+                        href="https://youtube.com/shorts/3UlClTLnrOs" 
                         target="_blank" 
                         rel="noreferrer"
-                        className="inline-flex items-center gap-2 text-xs text-slate-500 hover:text-blue-400 transition-colors"
+                        className="inline-flex items-center gap-2 text-xs text-slate-400 hover:text-blue-400 transition-colors"
                     >
-                        Want to see the video? <span className="underline flex items-center gap-1">Watch on YouTube <ExternalLink size={10} /></span>
+                        <ExternalLink size={12} /> Watch on YouTube
                     </a>
                 </div>
             </div>
@@ -157,73 +175,6 @@ const Landing = () => {
       </footer>
     </div>
   );
-};
-
-// A clean, static visual of the app interface
-const StaticPhoneMockup = () => {
-    return (
-        <div className="relative bg-black border-[12px] border-slate-900 rounded-[3rem] shadow-2xl overflow-hidden aspect-[9/19] z-20 ring-1 ring-white/10">
-            {/* Notch */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-6 bg-slate-900 rounded-b-xl z-30 pointer-events-none"></div>
-            
-            {/* Screen Content */}
-            <div className="w-full h-full bg-slate-950 relative overflow-hidden flex flex-col">
-                    {/* Header */}
-                    <div className="pt-10 px-6 pb-4 flex justify-between items-center">
-                            <div>
-                                <div className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Dashboard</div>
-                                <div className="text-lg font-bold text-white">Hello, Sales Pro</div>
-                            </div>
-                            <div className="w-8 h-8 rounded-full bg-slate-800 border border-white/10"></div>
-                    </div>
-
-                    {/* Main Card */}
-                    <div className="px-6 mb-6">
-                        <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-3xl p-6 shadow-xl shadow-blue-900/30 relative overflow-hidden">
-                            <div className="relative z-10">
-                                <div className="text-blue-200 text-[10px] font-bold uppercase mb-1">Total Commission</div>
-                                <div className="text-4xl font-black text-white tracking-tight mb-4">$9,213</div>
-                                <div className="inline-flex px-3 py-1 bg-white/10 rounded-full text-[10px] font-bold text-white backdrop-blur-sm">
-                                    + $1,450 this week
-                                </div>
-                            </div>
-                            {/* Decorative Circles */}
-                            <div className="absolute -right-4 -top-4 w-24 h-24 bg-white/5 rounded-full blur-2xl"></div>
-                            <div className="absolute -left-4 -bottom-4 w-20 h-20 bg-blue-400/20 rounded-full blur-xl"></div>
-                        </div>
-                    </div>
-
-                    {/* Stats Grid */}
-                    <div className="px-6 grid grid-cols-2 gap-3 mb-6">
-                            <div className="bg-slate-900/50 border border-white/5 rounded-2xl p-4">
-                                <div className="text-[10px] text-slate-500 font-bold uppercase">Units</div>
-                                <div className="text-xl font-bold text-white">12.5</div>
-                            </div>
-                            <div className="bg-slate-900/50 border border-white/5 rounded-2xl p-4">
-                                <div className="text-[10px] text-slate-500 font-bold uppercase">Goal</div>
-                                <div className="text-xl font-bold text-emerald-400">114%</div>
-                            </div>
-                    </div>
-
-                        {/* List Mockup */}
-                        <div className="flex-1 bg-slate-900/30 rounded-t-3xl border-t border-white/5 p-6 space-y-3">
-                            <div className="text-[10px] text-slate-500 font-bold uppercase mb-2">Recent Deals</div>
-                            {[1,2,3].map(i => (
-                                <div key={i} className="flex justify-between items-center p-3 bg-slate-800/50 rounded-xl border border-white/5">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-8 h-8 bg-blue-500/20 rounded-lg"></div>
-                                        <div className="space-y-1">
-                                            <div className="w-20 h-2 bg-slate-600 rounded"></div>
-                                            <div className="w-12 h-2 bg-slate-700 rounded"></div>
-                                        </div>
-                                    </div>
-                                    <div className="w-10 h-3 bg-emerald-500/20 rounded"></div>
-                                </div>
-                            ))}
-                        </div>
-            </div>
-        </div>
-    );
 };
 
 const FeatureCard = ({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) => (
