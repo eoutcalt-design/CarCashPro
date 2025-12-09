@@ -3,7 +3,22 @@
  * Handles natural language Q&A about user performance using OpenAI GPT-4
  */
 
-export default async function handler(req, res) {
+module.exports = async (req, res) => {
+  // Enable CORS
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+  );
+
+  // Handle OPTIONS request
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+
   // Only allow POST requests
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -22,6 +37,15 @@ export default async function handler(req, res) {
       return res.status(403).json({ 
         error: 'Upgrade required',
         message: 'AI coaching is available for PRO and GURU subscribers only.'
+      });
+    }
+
+    // Check for OpenAI API key
+    if (!process.env.OPENAI_API_KEY) {
+      console.error('OPENAI_API_KEY not set');
+      return res.status(500).json({ 
+        error: 'Configuration error',
+        message: 'AI service is not configured. Please contact support.'
       });
     }
 
@@ -53,7 +77,10 @@ export default async function handler(req, res) {
     if (!openaiResponse.ok) {
       const error = await openaiResponse.json();
       console.error('OpenAI API error:', error);
-      throw new Error('Failed to get AI response');
+      return res.status(500).json({ 
+        error: 'AI service error',
+        message: 'Failed to get AI response. Please try again.'
+      });
     }
 
     const data = await openaiResponse.json();
@@ -68,10 +95,10 @@ export default async function handler(req, res) {
     console.error('Coach chat error:', error);
     return res.status(500).json({ 
       error: 'Internal server error',
-      message: 'Failed to process your request. Please try again.'
+      message: error.message || 'Failed to process your request. Please try again.'
     });
   }
-}
+};
 
 /**
  * Build system prompt based on subscription tier
@@ -117,7 +144,7 @@ GURU Tier Capabilities:
  * Build context message with user's performance stats
  */
 function buildContextMessage(context) {
-  const { stats, tier } = context;
+  const { stats } = context;
   
   const paceDelta = stats.dealsThisMonth - ((stats.monthlyGoal / stats.daysInMonth) * stats.daysElapsed);
   const paceStatus = paceDelta >= 1 ? 'ahead' : paceDelta <= -1 ? 'behind' : 'on track';
