@@ -73,7 +73,7 @@ export const AICoachChat: React.FC<AICoachChatProps> = ({
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/coach/chat', {
+      const response = await fetch('/api/coach-chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
