@@ -1,17 +1,49 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import { Header, StatCard, Card, Button } from '../components/Components';
+import { AICoachCard } from '../components/AICoachCard';
 import { AreaChart, Area, XAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { useNavigate } from 'react-router-dom';
 import { Plus, Percent, TrendingUp, TrendingDown, ArrowUpRight } from 'lucide-react';
 import { PRODUCT_LABELS } from '../constants';
-import { ProductStatus } from '../types';
+import { ProductStatus, CoachMessage } from '../types';
+import { generateCoachingMessage, calculateCoachingStats } from '../lib/coachingEngine';
 
 const Dashboard = () => {
-  const { stats, deals, goals } = useApp();
+  const { stats, deals, goals, user, isPro } = useApp();
   const navigate = useNavigate();
   const [viewMode, setViewMode] = useState<'income' | 'units'>('income');
+  const [coachMessage, setCoachMessage] = useState<CoachMessage | null>(null);
+  
+  // Generate coaching message
+  useEffect(() => {
+    if (!user || deals.length === 0) return;
+    
+    // Determine user's tier
+    const tier = user.subscriptionTier || (isPro ? 'PRO' : 'FREE');
+    
+    // Calculate coaching context
+    const monthlyGoal = goals.newUnitsGoal + goals.usedUnitsGoal;
+    const context = calculateCoachingStats(deals, monthlyGoal, tier);
+    
+    // Determine time of day
+    const hour = new Date().getHours();
+    let timeOfDay: 'MORNING' | 'MIDDAY' | 'EVENING';
+    if (hour < 12) timeOfDay = 'MORNING';
+    else if (hour < 17) timeOfDay = 'MIDDAY';
+    else timeOfDay = 'EVENING';
+    
+    // Generate message
+    const message = generateCoachingMessage(context, timeOfDay);
+    
+    setCoachMessage({
+      id: `coach-${Date.now()}`,
+      userId: user.id,
+      createdAt: new Date().toISOString(),
+      ...message
+    });
+  }, [deals, goals, user, isPro]);
 
   // Mock data for chart
   const chartData = deals.slice(0, 7).reverse().map((d, i) => ({
@@ -136,6 +168,14 @@ const Dashboard = () => {
             />
           </div>
       </div>
+
+      {/* AI Coach Card */}
+      {user && (isPro || user.subscriptionTier) && (
+        <AICoachCard 
+          message={coachMessage}
+          tier={user.subscriptionTier || (isPro ? 'PRO' : 'FREE')}
+        />
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Product Penetration (MTD) */}

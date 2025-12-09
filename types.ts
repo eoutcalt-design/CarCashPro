@@ -105,6 +105,8 @@ export interface NotificationPreferences {
   emailAchievements: boolean;
 }
 
+export type SubscriptionTier = 'FREE' | 'PRO' | 'GURU';
+
 export interface User {
   id: string;
   email: string;
@@ -116,4 +118,45 @@ export interface User {
   isAdmin?: boolean;
   lastLogin?: string; // ISO timestamp of last login
   createdAt?: string; // ISO timestamp of account creation
+  subscriptionTier?: SubscriptionTier; // Subscription level for coaching features
+}
+
+// Coaching Engine Types
+
+export type CoachMessageType = 'MORNING' | 'MIDDAY' | 'EVENING' | 'ALERT' | 'ACHIEVEMENT';
+export type CoachMessageLevel = 'INFO' | 'WARNING' | 'SUCCESS';
+
+export interface CoachMessage {
+  id: string;
+  userId: string;
+  createdAt: string; // ISO timestamp
+  type: CoachMessageType;
+  level: CoachMessageLevel;
+  text: string;
+  data?: any; // Optional raw numbers used
+}
+
+export interface UserDailyStats {
+  userId: string;
+  date: string; // YYYY-MM-DD
+  dealsCount: number;
+  totalCommission: number;
+  avgCommission: number;
+}
+
+export interface CoachingContext {
+  tier: SubscriptionTier;
+  stats: {
+    monthlyGoal: number;
+    dealsThisMonth: number;
+    dealsLastMonth: number;
+    commissionThisMonth: number;
+    commissionLastMonth: number;
+    avgCommissionThisMonth: number;
+    avgCommissionLastMonth: number;
+    daysElapsed: number;
+    daysInMonth: number;
+    todayDeals: number;
+    recentDaysWithoutDeals: number;
+  };
 }
